@@ -1,0 +1,23 @@
+#install docker:
+https://phoenixnap.com/kb/how-to-install-docker-on-ubuntu-18-04
+
+
+#download install docker de brendan rius:
+docker pull brendanrius/jupyter-c-kernel
+
+#run docker:
+sudo docker run -d -p 8888:8888 brendanrius/jupyter-c-kernel
+
+#obtener ID
+sudo docker container list
+
+sudo docker container stop 23c4c6b5297c
+
+#enter docker bash: 
+sudo docker exec -it d263e0e9482c bash
+pip install nbconvert==5.4.1
+jupyter notebook --generate-config
+jupyter notebook list
+
+#obtener token y entrar con token
+127.0.0.1:8888
