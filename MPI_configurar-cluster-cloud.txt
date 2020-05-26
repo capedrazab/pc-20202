@@ -1,0 +1,39 @@
+﻿En el nodo maestro:
+
+    apt-get update
+    adduser mpiuser --uid 999
+    apt-get install openmpi-bin openmpi-common libopenmpi1.6 libopenmpi-dev
+    apt-get install nfs-kernel-server
+    apt-get install nfs-common
+    echo "/home/mpiuser *(rw,sync,no_subtree_check)" > /etc/exports
+    service nfs-kernel-server restart
+    exportfs -a
+
+en demás nodos:
+    apt-get update
+    adduser mpiuser --uid 999
+    apt-get install nfs-common
+    mount -t nfs ip_del_master:/home/mpiuser /home/mpiuser/
+    apt-get install openmpi-bin openmpi-common libopenmpi1.6 libopenmpi-dev
+
+En maestro: 
+    ssh-keygen  (enter enter enter...)
+    copiar claves id_rsa.pub a .ssh/authorized_keys de cada nodo
+    
+    nano /home/mpiuser/mpi_hosts
+   
+    copiar este texto en archivo hosts en maestro:
+--------------------------------------------------------------------------------
+# The Hostfile for Open MPI
+
+# The master node, 'slots=2' is used because it is a dual-processor machine.
+localhost slots=2
+
+# The following slave nodes are single processor machines:
+cluster-nodo1
+cluster-nodo2
+--------------------------------------------------------------------------------
+
+Para correr el programa:
+mpirun -np 4 --hostfile mpi-hosts ./mpi_test
+    
